@@ -11,6 +11,15 @@ sprites = {
     {   name = "tropic",
         path = "gfx/objects.png",
         x = 32, y = 0, w = 52, h = 43, },
+    {   name = "shoe",
+        path = "gfx/objects.png",
+        x = 70, y = 73, w = 35, h = 25, },
+    {   name = "mushroom",
+        path = "gfx/objects.png",
+        x = 32 * 4, y = 0, w = 32, h = 43, },
+    {   name = "castle",
+        path = "gfx/objects.png",
+        x = 32, y = 58, w = 37, h = 43, },
         
     -- action
     {   name = "valid_action",

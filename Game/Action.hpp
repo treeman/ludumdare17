@@ -11,11 +11,12 @@ enum ActionType {
 };
 
 struct Event {
-	Event( ActionType _type, float _duration, boost::function<void()> _callback ) :
-		type( _type ), duration( _duration ), callback( _callback ), timer( 0 )
+	Event( ActionType _type, int _points, float _duration, boost::function<void()> _callback ) :
+		type( _type ), points( _points ), duration( _duration ), callback( _callback ), timer( 0 )
 	{ }
 	
 	ActionType type;
+	int points;
 	float duration;
 	boost::function<void()> callback;
 	float timer;
@@ -27,7 +28,6 @@ public:
 		boost::shared_ptr<Sprite> shadow );
 	
 	void Add( Event &e );
-	void Add( ActionType type, float duration, boost::function<void()> callback );
 	
 	bool HandleEvent( hgeInputEvent &e );
 	

@@ -11,10 +11,6 @@ void Action::Add( Event &e )
 {
 	events.push_back( e );
 }
-void Action::Add( ActionType type, float duration, boost::function<void()> callback )
-{
-	events.push_back( Event( type, duration, callback ) );
-}
 
 bool Action::HandleEvent( hgeInputEvent &e )
 {

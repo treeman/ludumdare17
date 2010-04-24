@@ -6,13 +6,10 @@
 
 #include "Math.hpp"
 
-class b2Vec2;
-
 class Vec2D {
 public:
 	Vec2D( const float _x = 0, const float _y = 0 ) : x(_x), y(_y) { }
 	Vec2D( const Vec2D &v ) { x = v.x; y = v.y; }
-	Vec2D( const b2Vec2 &v );
 	
 	Vec2D operator + ( const Vec2D &v ) const { return Vec2D( x + v.x, y + v.y ); }	
 	Vec2D operator - ( const Vec2D &v ) const { return Vec2D( x - v.x, y - v.y ); }
@@ -47,8 +44,6 @@ public:
 		if( mag == 0 ) return *this;
 		else return (*this) / mag;
 	}
-	
-	b2Vec2 b2Vec();
 	
 	float x, y;
 	

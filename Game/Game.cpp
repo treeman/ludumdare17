@@ -6,11 +6,6 @@
 #include <boost/foreach.hpp>
 #include <boost/bind.hpp>
 
-void callback() 
-{
-	L_ << "callback called!";
-}
-
 Game::Game() : fnt( new hgeFont( "fnt/arial10.fnt" ) ), sprite_loader( new SpriteLoader() )
 {
 	TWEAKS->Load( "tweaks.lua" );
@@ -50,26 +45,29 @@ void Game::Render()
 		i->Render();
 	}
 	
-	const Vec2D dude_pos = islands[curr_island]->GetPos();
+	const Vec2D dude_pos = islands.at(curr_island)->GetPos();
 	action->Render( dude_pos.x, dude_pos.y );
 	dude->spr->Render( dude_pos.x, dude_pos.y );
+	
+	fnt->printf( 400, 5, HGETEXT_LEFT, "curr_island: %i", curr_island );
 }
 
 void Game::GotoNextIsland()
 {
-	--curr_island;
-	if(curr_island < 0) curr_island = 0;
-	GotoIsland();
+	++curr_island;
+	if(curr_island > islands.size() - 1) { curr_island = islands.size() - 1; }
+	else { GotoIsland(); }
 }
 void Game::GotoPrevIsland()
 {
-	++curr_island;
-	if(curr_island > islands.size() - 1) curr_island = islands.size() - 1;
-	GotoIsland();
+	if( curr_island != 0 ) {
+		--curr_island;
+		GotoIsland(); 
+	}
 }
 void Game::GotoIsland()
 {
-	BOOST_FOREACH( Event e, islands[curr_island]->events ) {
+	BOOST_FOREACH( Event e, islands.at(curr_island)->events ) {
 		action->Add( e );
 	}
 }
@@ -137,7 +135,68 @@ void Game::LoadIslands( std::string lua_file ) throw( Error::lua_error & )
 				boost::shared_ptr<Island> island( new Island( sprite_loader->Get( sprite_name ), 
 					Vec2D( x, y ), x_off, y_off ) );
 				
-				
+				//add all events we can find
+				lua_pushstring( L, "events" );
+				lua_gettable( L, -2 );
+				if( lua_istable( L, -1 ) ) 
+				{
+					for( lua_pushnil( L ); lua_next( L, -2 ); lua_pop( L, 1 ) ) 
+					{
+						int points = 0;
+						float duration;
+						std::string str;
+						boost::function<void()> callback = 0;
+						
+						bool is_valid = true;
+						
+						lua_pushstring( L, "points" );
+						lua_gettable( L, -2 );
+						if( lua_isnumber( L, -1 ) ) {
+							points = (int)lua_tonumber( L, -1 );
+						}
+						lua_pop( L, 1 );
+						
+						lua_pushstring( L, "duration" );
+						lua_gettable( L, -2 );
+						if( lua_isnumber( L, -1 ) ) {
+							duration = (float)lua_tonumber( L, -1 );
+						} else { is_valid = false; }
+						lua_pop( L, 1 );
+						
+						lua_pushstring( L, "str" );
+						lua_gettable( L, -2 );
+						if( lua_isstring( L, -1 ) ) {
+							str = lua_tostring( L, -1 );
+						} else { is_valid = false; }
+						lua_pop( L, 1 );
+						
+						// valid action is a string, either "next" or "prev" or empty
+						lua_pushstring( L, "action" );
+						lua_gettable( L, -2 );
+						if( lua_isstring( L, -1 ) ) {
+							std::string action = lua_tostring( L, -1 );
+							if( action == "prev" ) {
+								callback = boost::bind( &Game::GotoPrevIsland, this );
+							}
+							else if( action == "next" ) {
+								callback = boost::bind( &Game::GotoNextIsland, this );
+							}
+						}
+						lua_pop( L, 1 );
+						
+						if( is_valid ) {
+							ActionType type;
+							if( points < 0 ) {
+								type = INVALID_ACTION;
+							}
+							else {
+								type = VALID_ACTION;
+							}
+							island->events.push_back( Event( type, points, duration, callback ) );
+						}
+					}
+				}
+				lua_pop( L, 1 );
 				
 				islands.push_back( island );
 			}
