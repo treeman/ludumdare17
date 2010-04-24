@@ -10,13 +10,15 @@ GameDebug::GameDebug()
 	show_fps.reset( new Dator<bool>( false ) );
 	SETTINGS->RegisterVariable( "fps_show", boost::weak_ptr<BaseDator>( show_fps ) );
 	
+	show_game_time.reset( new Dator<bool>( false ) );
+	SETTINGS->RegisterVariable( "time_show", boost::weak_ptr<BaseDator>( show_game_time ) );
+	
 	arial10.reset( new hgeFont( "fnt/arial10.fnt" ) );
 	visitor20.reset( new hgeFont( "fnt/visitor20.fnt" ) );
 }
 
 void GameDebug::Update( float )
 {
-	
 }
 void GameDebug::Render()
 {
@@ -30,5 +32,10 @@ void GameDebug::Render()
 	if( show_fps->Val() ) {
 		visitor20->SetColor( 0xffffffff );
 		visitor20->printf( 5, 5, HGETEXT_LEFT, "%i", hge->Timer_GetFPS() );
+	}
+	
+	if( show_game_time->Val() ) {
+		arial10->SetColor( 0xffffffff );
+		arial10->printf( 100, 5, HGETEXT_LEFT, "%f", hge->Timer_GetTime() );
 	}
 }

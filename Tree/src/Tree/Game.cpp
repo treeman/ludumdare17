@@ -19,6 +19,8 @@ bool Game::Logic()
 {
 	const float dt = hge->Timer_GetDelta();
 	
+	game_debug->Update( dt );
+	
 	//set the new state to handle stuff
 	curr_state = Top();
 	

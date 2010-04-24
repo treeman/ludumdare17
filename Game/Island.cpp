@@ -1,8 +1,14 @@
 #include "Island.hpp"
 
-Island::Island( boost::shared_ptr<Sprite> _spr, Vec2D _pos ) : spr(_spr), pos(_pos)
+Island::Island( boost::shared_ptr<Sprite> _spr, Vec2D _pos, float _x_off, float _y_off ) : 
+	spr(_spr), pos(_pos), x_off(_x_off), y_off(_y_off)
 {
 	
+}
+
+Vec2D Island::GetPos()
+{
+	return Vec2D( pos.x + x_off, pos.y + y_off );
 }
 
 void Island::Render()

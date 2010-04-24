@@ -19,6 +19,7 @@ namespace Tree
 		
 		boost::shared_ptr<Dator<bool> > show_mouse_pos;
 		boost::shared_ptr<Dator<bool> > show_fps;
+		boost::shared_ptr<Dator<bool> > show_game_time;
 		
 		boost::shared_ptr<hgeFont> arial10;
 		boost::shared_ptr<hgeFont> visitor20;
