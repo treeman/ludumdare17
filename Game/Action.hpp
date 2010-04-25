@@ -11,14 +11,15 @@ enum ActionType {
 };
 
 struct Event {
-	Event( ActionType _type, int _points, float _duration, boost::function<void()> _callback ) :
-		type( _type ), points( _points ), duration( _duration ), callback( _callback ), timer( 0 )
+	Event( ActionType _type, int _points, float _duration, std::string _action ) :
+		type( _type ), points( _points ), duration( _duration ), action( _action ), timer( 0 )
 	{ }
+	void Reset() { timer = 0; }
 	
 	ActionType type;
 	int points;
 	float duration;
-	boost::function<void()> callback;
+	std::string action;
 	float timer;
 };
 
@@ -28,6 +29,11 @@ public:
 		boost::shared_ptr<Sprite> shadow );
 	
 	void Add( Event &e );
+	
+	//had these as callbacks but segfaulted when calling
+	//who cares? just make it work
+	int GetPoints();
+	std::string GetAction();
 	
 	bool HandleEvent( hgeInputEvent &e );
 	
@@ -40,4 +46,7 @@ private:
 	boost::shared_ptr<Sprite> valid_action;
 	boost::shared_ptr<Sprite> invalid_action;
 	boost::shared_ptr<Sprite> shadow;
+	
+	int points;
+	std::string action;
 };

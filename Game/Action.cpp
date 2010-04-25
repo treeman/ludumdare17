@@ -1,15 +1,29 @@
 #include "Action.hpp"
 #include "Tree/Log.hpp"
+#include "Tree/Tweaks.hpp"
 
 Action::Action( boost::shared_ptr<Sprite> valid, boost::shared_ptr<Sprite> invalid,
 	boost::shared_ptr<Sprite> _shadow ) :
 	valid_action( valid ), invalid_action( invalid ), shadow( _shadow )
 {
+	valid->spr->SetHotSpot( valid->spr->GetWidth() / 2, valid->spr->GetHeight() / 2 );
+	invalid->spr->SetHotSpot( invalid->spr->GetWidth() / 2, invalid->spr->GetHeight() / 2 );
+	shadow->spr->SetHotSpot( shadow->spr->GetWidth() / 2, shadow->spr->GetHeight() / 2 );
 	
+	points = 0;
 }
 void Action::Add( Event &e )
 {
 	events.push_back( e );
+}
+
+int Action::GetPoints()
+{
+	return points;
+}
+std::string Action::GetAction()
+{
+	return action;
 }
 
 bool Action::HandleEvent( hgeInputEvent &e )
@@ -18,36 +32,65 @@ bool Action::HandleEvent( hgeInputEvent &e )
 	
 	if( e.type == INPUT_KEYDOWN ) {
 		
-		events.begin()->callback();
-		events.erase( events.begin() );
+		Events::iterator e = events.begin();
+		
+		action = e->action;
+		points += e->points;
+		
+		events.erase( e );
 	}
 	
 	return false;
 }
 void Action::Update( float dt )
 {
+	points = 0;
+	action = "";
+	
 	if( events.empty() ) return;
 	
 	Events::iterator e = events.begin();
 	e->timer += dt;
 	if( e->duration < e->timer ) {
+		if( events.size() > 1 ) {
+			Event e2 = *e;
+		e2.Reset();
+		events.push_back( e2 );
 		events.erase( e );
+		}
+		else {
+			e->Reset();
+		}
 	}
 }
 void Action::Render( float x, float y )
 {
 	if( events.empty() ) return;
 	
-	shadow->spr->Render( x + 1, y - 9 );
+	x += TWEAKS->GetFloat( "button_x_offset" );
+	
+	const float button_offset = TWEAKS->GetFloat( "button_y_offset" );
 	
 	Events::iterator e = events.begin();
 	
-	const float ys = 20;
+	const float ys = TWEAKS->GetFloat( "button_distance" );
+	
+	const float half = e->duration / 2;
+	
+	const float shadow_size = std::abs( half - e->timer );
+	
+	if( shadow_size != 0 ) {
+		shadow->spr->RenderEx( x, y + button_offset + 1, 0, shadow_size );
+	}
+	
+	const float dist = ( half - std::abs( half - e->timer ) ) * ys;
+	
+	const float button_y = y - dist + button_offset;
 	
 	if( e->type == VALID_ACTION ) {
-		valid_action->spr->Render( x, y - 10 );
+		valid_action->spr->Render( x, button_y );
 	}
 	else {
-		invalid_action->spr->Render( x, y - 10 );
+		invalid_action->spr->Render( x, button_y );
 	}
 }
