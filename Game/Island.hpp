@@ -6,12 +6,14 @@
 
 class Island {
 public:
-	Island( boost::shared_ptr<Sprite> spr, Vec2D pos, float x_off, float y_off );
+	Island( boost::shared_ptr<Sprite> spr, Vec2D pos, float x_off, float y_off, int num );
 	
 	Vec2D GetPos();
 	
 	typedef std::vector<Event> Events;
 	Events events;
+	
+	int num;
 	
 	void Render();
 private:

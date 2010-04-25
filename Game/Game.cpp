@@ -6,6 +6,11 @@
 #include <boost/foreach.hpp>
 #include <boost/bind.hpp>
 
+bool island_order( boost::shared_ptr<Island> i1, boost::shared_ptr<Island> i2 )
+{
+	return i1->num < i2->num;
+}
+
 Game::Game() : fnt( new hgeFont( "fnt/arial10.fnt" ) ), sprite_loader( new SpriteLoader() )
 {
 	TWEAKS->Load( "tweaks.lua" );
@@ -91,6 +96,7 @@ void Game::LoadIslands( std::string lua_file ) throw( Error::lua_error & )
 			std::string sprite_name;
 			float x, y;
 			float x_off = 0, y_off = 0; //dude offset
+			int num;
 			
 			bool is_valid = true;
 			
@@ -129,11 +135,18 @@ void Game::LoadIslands( std::string lua_file ) throw( Error::lua_error & )
 			}
 			lua_pop( L, 1 );
 			
+			lua_pushstring( L, "num" );
+			lua_gettable( L, -2 );
+			if( lua_isnumber( L, -1 ) ) {
+				num = (int)lua_tonumber( L, -1 );
+			} else { is_valid = false; }
+			lua_pop( L, 1 );
+			
 			//everything set okay
 			//I do it like this so we don't continue before poping the stack back
 			if( is_valid ) {
 				boost::shared_ptr<Island> island( new Island( sprite_loader->Get( sprite_name ), 
-					Vec2D( x, y ), x_off, y_off ) );
+					Vec2D( x, y ), x_off, y_off, num ) );
 				
 				//add all events we can find
 				lua_pushstring( L, "events" );
@@ -201,6 +214,11 @@ void Game::LoadIslands( std::string lua_file ) throw( Error::lua_error & )
 				islands.push_back( island );
 			}
 		}
+	}
+	
+	std::sort( islands.begin(), islands.end(), island_order );
+	BOOST_FOREACH( boost::shared_ptr<Island> i, islands ) {
+		L_ << "i: " << i->num;
 	}
 	
 	curr_island = 0;
