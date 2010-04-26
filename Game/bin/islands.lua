@@ -6,9 +6,7 @@ tropics = {
     events = {
         {
             duration = 2,
-            str = "Meowing cats",
             action = "next",
-			points = 100,
         },
     },
 }
@@ -21,15 +19,11 @@ a = {
 	events = {
 		{
 			duration = 1,
-			str = "cow",
 			action = "prev",
-			points = -10,
 		},
 		{
 			duration = 1,
-			str = "meh!",
 			action = "next",
-			points = 10,
 		},
 	},
 }
@@ -40,10 +34,16 @@ b = {
 	num = 2,
 	events = {
 		{
+			duration = 0.5,
+			action = "prev",
+		},
+		{
 			duration = 1,
-			str = "meh!",
 			action = "next",
-			points = 10,
+		},
+		{
+			duration = 0.5,
+			action = "prev",
 		},
 	},
 }
@@ -54,10 +54,16 @@ c = {
 	num = 3,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.4,
+			action = "prev",
+		},
+		{
+			duration = 0.6,
 			action = "next",
-			points = 10,
+		},
+		{
+			duration = 0.5,
+			action = "prev",
 		},
 	},
 }
@@ -67,12 +73,14 @@ ball = {
     x_off = 4, y_off = 10,
 	num = 12,
     events = {
-        {
-            duration = 2,
-            str = "Meowing cats",
-            action = "next",
-			points = 100,
-        },
+		{
+			duration = 0.4,
+			action = "next",
+		},
+		{
+			duration = 0.5,
+			action = "prev",
+		},
     },
 }
 d = {
@@ -82,10 +90,20 @@ d = {
 	num = 13,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.5,
+			action = "prev",
+		},
+		{
+			duration = 0.5,
 			action = "next",
-			points = 10,
+		},
+		{
+			duration = 0.5,
+			action = "prev",
+		},
+		{
+			duration = 0.5,
+			action = "prev",
 		},
 	},
 }
@@ -96,10 +114,24 @@ e = {
 	num = 14,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.4,
+			action = "prev",
+		},
+		{
+			duration = 0.8,
+			action = "prev",
+		},
+		{
+			duration = 0.4,
+			action = "prev",
+		},
+		{
+			duration = 0.9,
+			action = "prev",
+		},
+		{
+			duration = 0.4,
 			action = "next",
-			points = 10,
 		},
 	},
 }
@@ -110,10 +142,12 @@ f = {
 	num = 15,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.3,
 			action = "next",
-			points = 10,
+		},
+		{
+			duration = 0.3,
+			action = "prev",
 		},
 	},
 }
@@ -125,9 +159,15 @@ g = {
 	events = {
 		{
 			duration = 1,
-			str = "meh!",
+			action = "prev",
+		},
+		{
+			duration = 1,
+			action = "prev",
+		},
+		{
+			duration = 0.4,
 			action = "next",
-			points = 10,
 		},
 	},
 }
@@ -138,10 +178,20 @@ h = {
 	num = 17,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.4,
+			action = "prev",
+		},
+		{
+			duration = 0.5,
+			action = "prev",
+		},
+		{
+			duration = 0.9,
+			action = "prev",
+		},
+		{
+			duration = 0.4,
 			action = "next",
-			points = 10,
 		},
 	},
 }
@@ -150,14 +200,16 @@ bottle = {
     x = 418, y = 400,
     x_off = 4, y_off = 0,
 	num = 18,
-    events = {
-        {
-            duration = 2,
-            str = "Meowing cats",
-            action = "next",
-			points = 100,
-        },
-    },
+	events = {
+		{
+			duration = 2,
+			action = "prev",
+		},
+		{
+			duration = 0.3,
+			action = "next",
+		},
+	},
 }
 i = {
 	sprite_name = "bore",
@@ -166,10 +218,24 @@ i = {
 	num = 19,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.3,
 			action = "next",
-			points = 10,
+		},
+		{
+			duration = 0.3,
+			action = "prev",
+		},
+		{
+			duration = 0.2,
+			action = "prev",
+		},
+		{
+			duration = 0.4,
+			action = "prev",
+		},
+		{
+			duration = 0.22,
+			action = "next",
 		},
 	},
 }
@@ -180,10 +246,20 @@ j = {
 	num = 110,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.2,
 			action = "next",
-			points = 10,
+		},
+		{
+			duration = 0.1,
+			action = "prev",
+		},
+		{
+			duration = 0.2,
+			action = "next",
+		},
+		{
+			duration = 0.9,
+			action = "prev",
 		},
 	},
 }
@@ -194,10 +270,12 @@ k = {
 	num = 111,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 2.4,
+			action = "prev",
+		},
+		{
+			duration = 0.3,
 			action = "next",
-			points = 10,
 		},
 	},
 }
@@ -208,10 +286,24 @@ l = {
 	num = 112,
 	events = {
 		{
-			duration = 1,
-			str = "meh!",
+			duration = 0.2,
 			action = "next",
-			points = 10,
+		},
+		{
+			duration = 1,
+			action = "prev",
+		},
+		{
+			duration = 0.2,
+			action = "next",
+		},
+		{
+			duration = 1,
+			action = "prev",
+		},
+		{
+			duration = 0.2,
+			action = "prev",
 		},
 	},
 }
@@ -221,12 +313,38 @@ m = {
 	x_off = -5, y_off = -10,
 	num = 113,
 	events = {
-		{
-			duration = 1,
-			str = "meh!",
-			action = "next",
-			points = 10,
-		},
+        {
+            duration = 0.2,
+            action = "next",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "next",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "next",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "next",
+        },
 	},
 }
 
@@ -237,10 +355,40 @@ castle = {
 	num = 300,
     events = {
         {
-            duration = 2,
-            str = "Meowing cats",
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.4,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.4,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
+            action = "prev",
+        },
+        {
+            duration = 0.2,
             action = "victory",
-			points = 100,
         },
     },
 }

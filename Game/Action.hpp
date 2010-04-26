@@ -5,19 +5,12 @@
 #include "Tree/Sprite.hpp"
 #include "Tree/Inputhandler.hpp"
 
-enum ActionType {
-	VALID_ACTION,
-	INVALID_ACTION
-};
-
 struct Event {
-	Event( ActionType _type, int _points, float _duration, std::string _action ) :
-		type( _type ), points( _points ), duration( _duration ), action( _action ), timer( 0 )
+	Event( float _duration, std::string _action ) :
+		duration( _duration ), action( _action ), timer( 0 )
 	{ }
 	void Reset() { timer = 0; }
 	
-	ActionType type;
-	int points;
 	float duration;
 	std::string action;
 	float timer;
@@ -33,7 +26,6 @@ public:
 	
 	//had these as callbacks but segfaulted when calling
 	//who cares? just make it work
-	int GetPoints();
 	std::string GetAction();
 	
 	bool HandleEvent( hgeInputEvent &e );
@@ -48,6 +40,5 @@ private:
 	boost::shared_ptr<Sprite> invalid_action;
 	boost::shared_ptr<Sprite> shadow;
 	
-	int points;
 	std::string action;
 };

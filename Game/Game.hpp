@@ -38,7 +38,6 @@ private:
 	
 	boost::shared_ptr<Action> action;
 	
-	void AddPoints( int points );
 	void MakeAction( std::string action );
 	int points;
 	

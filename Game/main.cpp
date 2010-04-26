@@ -35,7 +35,7 @@ int main( int argc, char *argv[] )
 			800, //width
 			600, //height
 			true, //windowed
-			"Ludum Dare 17", //window title
+			"Beebop the Island Hopper", //window title
 			"settings.ini"
 		);
 		

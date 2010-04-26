@@ -78,7 +78,6 @@ void Game::Update( float dt )
 
 	if( has_victory ) return;
 
-	AddPoints( action->GetPoints() );
 	MakeAction( action->GetAction() );
 	
 	action->Update( dt );
@@ -223,31 +222,15 @@ void Game::LoadIslands( std::string lua_file ) throw( Error::lua_error & )
 				{
 					for( lua_pushnil( L ); lua_next( L, -2 ); lua_pop( L, 1 ) ) 
 					{
-						int points = 0;
 						float duration;
-						std::string str;
 						std::string action;
 						
 						bool is_valid = true;
-						
-						lua_pushstring( L, "points" );
-						lua_gettable( L, -2 );
-						if( lua_isnumber( L, -1 ) ) {
-							points = (int)lua_tonumber( L, -1 );
-						}
-						lua_pop( L, 1 );
 						
 						lua_pushstring( L, "duration" );
 						lua_gettable( L, -2 );
 						if( lua_isnumber( L, -1 ) ) {
 							duration = (float)lua_tonumber( L, -1 );
-						} else { is_valid = false; }
-						lua_pop( L, 1 );
-						
-						lua_pushstring( L, "str" );
-						lua_gettable( L, -2 );
-						if( lua_isstring( L, -1 ) ) {
-							str = lua_tostring( L, -1 );
 						} else { is_valid = false; }
 						lua_pop( L, 1 );
 						
@@ -259,14 +242,7 @@ void Game::LoadIslands( std::string lua_file ) throw( Error::lua_error & )
 						lua_pop( L, 1 );
 						
 						if( is_valid ) {
-							ActionType type;
-							if( points < 0 ) {
-								type = INVALID_ACTION;
-							}
-							else {
-								type = VALID_ACTION;
-							}
-							island->events.push_back( Event( type, points, duration, action ) );
+							island->events.push_back( Event( duration, action ) );
 						}
 					}
 				}
@@ -288,16 +264,6 @@ void Game::Victory()
 	Tree::Game::Instance()->Pop();
 }
 
-void Game::AddPoints( int p )
-{
-	if( p > 0 ) {
-		hge->Effect_PlayEx( get_points, 20 );
-	}
-	else if( p < 0 ) {
-		hge->Effect_PlayEx( lose_points, 20 );
-	}
-	points += p;
-}
 
 void Game::MakeAction( std::string a )
 {
@@ -305,9 +271,11 @@ void Game::MakeAction( std::string a )
 	
 	if( a == "next" ) {
 		GotoNextIsland();
+		hge->Effect_PlayEx( get_points, 20 );
 	}
 	else if( a == "prev" ) {
 		GotoPrevIsland();
+		hge->Effect_PlayEx( lose_points, 20 );
 	}
 	else if( a == "victory" ) {
 		has_victory = true;

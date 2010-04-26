@@ -9,8 +9,6 @@ Action::Action( boost::shared_ptr<Sprite> valid, boost::shared_ptr<Sprite> inval
 	valid->spr->SetHotSpot( valid->spr->GetWidth() / 2, valid->spr->GetHeight() / 2 );
 	invalid->spr->SetHotSpot( invalid->spr->GetWidth() / 2, invalid->spr->GetHeight() / 2 );
 	shadow->spr->SetHotSpot( shadow->spr->GetWidth() / 2, shadow->spr->GetHeight() / 2 );
-	
-	points = 0;
 }
 void Action::Add( Event &e )
 {
@@ -21,10 +19,6 @@ void Action::Clear()
 	events.clear();
 }
 
-int Action::GetPoints()
-{
-	return points;
-}
 std::string Action::GetAction()
 {
 	return action;
@@ -39,7 +33,6 @@ bool Action::HandleEvent( hgeInputEvent &e )
 		Events::iterator e = events.begin();
 		
 		action = e->action;
-		points += e->points;
 		
 		events.erase( e );
 	}
@@ -48,7 +41,6 @@ bool Action::HandleEvent( hgeInputEvent &e )
 }
 void Action::Update( float dt )
 {
-	points = 0;
 	action = "";
 	
 	if( events.empty() ) return;
@@ -86,10 +78,10 @@ void Action::Render( float x, float y )
 	
 	const float button_y = y - dist + button_offset;
 	
-	if( e->type == VALID_ACTION ) {
-		valid_action->spr->Render( x, button_y );
+	if( e->action == "prev" ) {
+		invalid_action->spr->Render( x, button_y );
 	}
 	else {
-		invalid_action->spr->Render( x, button_y );
+		valid_action->spr->Render( x, button_y );
 	}
 }
