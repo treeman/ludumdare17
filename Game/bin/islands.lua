@@ -21,6 +21,12 @@ a = {
 	events = {
 		{
 			duration = 1,
+			str = "cow",
+			action = "prev",
+			points = -10,
+		},
+		{
+			duration = 1,
 			str = "meh!",
 			action = "next",
 			points = 10,

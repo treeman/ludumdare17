@@ -29,6 +29,7 @@ public:
 		boost::shared_ptr<Sprite> shadow );
 	
 	void Add( Event &e );
+	void Clear();
 	
 	//had these as callbacks but segfaulted when calling
 	//who cares? just make it work

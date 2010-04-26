@@ -16,6 +16,10 @@ void Action::Add( Event &e )
 {
 	events.push_back( e );
 }
+void Action::Clear()
+{
+	events.clear();
+}
 
 int Action::GetPoints()
 {
@@ -49,17 +53,12 @@ void Action::Update( float dt )
 	
 	if( events.empty() ) return;
 	
-	Events::iterator e = events.begin();
-	e->timer += dt;
-	if( e->duration < e->timer ) {
+	events[0].timer += dt;
+	if( events[0].duration < events[0].timer ) {
+		events[0].Reset();
 		if( events.size() > 1 ) {
-			Event e2 = *e;
-		e2.Reset();
-		events.push_back( e2 );
-		events.erase( e );
-		}
-		else {
-			e->Reset();
+			events.push_back( events[0] );
+			events.erase( events.begin() );
 		}
 	}
 }

@@ -139,6 +139,7 @@ void Game::GotoPrevIsland()
 }
 void Game::GotoIsland()
 {
+	action->Clear();
 	BOOST_FOREACH( Event e, islands.at(curr_island)->events ) {
 		action->Add( e );
 	}
